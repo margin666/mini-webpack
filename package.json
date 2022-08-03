@@ -19,5 +19,8 @@
   "homepage": "https://github.com/margin666/mini-webpack#readme",
   "devDependencies": {
     "tapable": "^2.2.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.18.10"
   }
 }

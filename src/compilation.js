@@ -1,4 +1,6 @@
 const {dirname} = require('path')
+const parser = require('@babel/parser')
+const { traverse } = require('@babel/core')
 class Compilation{
     constructor(compiler){
         const {
@@ -44,8 +46,46 @@ class Compilation{
         }
     }
 
-    loaderParse(sourcePath){
+    async loaderParse(sourcePath){
         // 读取文件内容
-        
+        let [content, md5Hash] = await readFileWithHash(sourcePath)
+        for(let loader of this.loaders){
+            const { test, use } = loader
+            if(sourcePath.match(test)){
+                if(Array.isArray(use)){
+                    while(use.length){
+                        cur = use.pop()
+                        const loaderHander = 
+                            typeof cur.loader === 'string'
+                            ? require(cur.loader)
+                            : typeof cur.loader === 'function'
+                            ? cur.loader
+                            : _=>_
+                        content = loaderHander(content)
+                    }
+                }else if(typeof use.loader === 'string'){
+                    const loaderHander = require(use.loader)
+                    content = loaderHander(content)
+                }else if(typeof use.loader === 'function'){
+                    const loaderHander = use.loader
+                    content = loaderHander(content)
+                }
+            }
+        }
+
+        return [content, md5Hash]
+    }
+
+    // 替换require
+    parse(source, dirpath){
+        const inst = this
+        const ast = parser.parse(source)
+        const relyInModule = [] // 所有的依赖
+        traverse(ast, {
+            CallExpression(p){
+                // 检索所有的节点
+                
+            }
+        })
     }
 }
