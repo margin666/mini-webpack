@@ -1,15 +1,19 @@
-## mini-webpack
+## webpack的大致流程
+1. 创建webpack函数，模拟webpack
+2. webpack接受配置参数和回调函数
+3. webpack内部，将配置和回调函数传给compiler实例,compiler负责将所有的配置信息以及所有的钩子函数、loader、plugins等挂载
+4. 在compiler内部，使用tapable库创建所需的不同类型的钩子函数，然后统一注册所有的plugin
+5. 创建新的compilation实例，接收compiler提供的所有配置，执行编译工作
+6. 根据提供的入口文件，依据依赖关系，编译所有的文件（为了避免循环依赖，将所有的依赖保存起来，每次编译前，根据模块路径判断是否需要编译）
+7. 编译流程是先使用loader处理，将结果获取到，同时获取文件hash值，用于缓存
+8. 然后编译loader处理后的文件
+    + 使用@babel/parse将代码转换成ast
+    + 使用@babel/traverse遍历词法节点
+    + 对于require函数调用的，使用@babel/types生成一个名为__webpack_require__的babel词法节点，替换原有
+    + 将修改后的ast使用@babel/generator还原为代码并返回
+    + 在整个修改过程中，将依赖收集起来一并返回
+9. 将模块路径与编译后的代码保存为映射关系
+10. 递归遍历拿到的依赖，确保所有依赖被编译
+11. 调用emitFile方法，将收集到的模块路径与代码映射里面的代码遍历，使用ejs模板去拼接成一个个的自执行函数并写入文件，写入文件之后可以将信息保存在一个缓存信息目录中，在下一次重写文件前先判断是否发生改变，确定是否需要重写文件
 
-
-1、创建compiler类，传入配置文件config和回调函数callback
-2、编译工具类compilation
-3、使用tapable库创建一些异步钩子，保存在hooks中
-4、调用内部方法，注册所有的plugin
-5、在运行run方法，之前，先调用下之前声明的beforeRun钩子，触发对应的调用事件
-6、创建compilation工具类
-7、-- 内部声明make异步方法进行编译，处理符合loader条件的文件，再就是将内部所有通过require引入的文件，转换成__webpack_require__函数，这么变主要是因为webpack将所有编译的模块都存储在闭包中，只能通过该方法获取
-8、-- 编译时使用深度遍历函数遍历，先处理loader，然后改写require，改写require使用@babel/*来改写
-9、利用收集的编译后的模块，注入到ejs模板字符串中进行拼接，生成bundle文件
-10、在emit生成bundle文件时，利用md5Hash来判断缓存，提升打包速度
-
-
+## 该项目简化流程
