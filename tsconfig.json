@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "sourceMap": false,
+        "outDir": "./dist",
+        "rootDir": ".",
+        "moduleResolution": "node",
+        "types": [
+         "vitest/globals"   
+        ]
+    },
+    "exclude": [
+        "node_modules/*",
+    ],
+    "include": [
+       "packages/*.ts", "packages/**/*.ts", "src/*.ts", "src/**/*.ts"
+    ]
+}

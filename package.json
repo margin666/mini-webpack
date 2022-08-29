@@ -4,7 +4,8 @@
   "description": "mini-webpack",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "build": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/margin666/mini-webpack#readme",
   "devDependencies": {
-    "tapable": "^2.2.1"
+    "tapable": "^2.2.1",
+    "typescript": "^4.7.4",
+    "vitest": "^0.22.1"
   },
   "dependencies": {
     "@babel/core": "^7.18.10"
