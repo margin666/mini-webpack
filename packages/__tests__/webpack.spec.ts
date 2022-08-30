@@ -1,6 +1,6 @@
-const {webpack} = require('../Webpack.ts')
+import * as webpack from '../Webpack'
 describe('name', () => {
     it('test', () => {
-        expect(webpack()).toBe(1)
+        expect(1).toBe(1)
     })
 })
