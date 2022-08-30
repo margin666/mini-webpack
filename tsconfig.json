@@ -1,19 +1,24 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
+        "target": "ES6",
+        "module": "CommonJS",
         "sourceMap": false,
         "outDir": "./dist",
         "rootDir": ".",
+        "allowJs": true,
+        "esModuleInterop": true,
         "moduleResolution": "node",
         "types": [
-         "vitest/globals"   
+            "vitest/globals"
         ]
     },
     "exclude": [
         "node_modules/*",
     ],
     "include": [
-       "packages/*.ts", "packages/**/*.ts", "src/*.ts", "src/**/*.ts"
+        "packages/*.ts",
+        "packages/**/*.ts",
+        "src/*.ts",
+        "src/**/*.ts",
     ]
 }

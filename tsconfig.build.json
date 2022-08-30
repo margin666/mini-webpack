@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
+        "target": "ES6",
+        "module": "CommonJS",
         "sourceMap": false,
         "outDir": "./dist",
         "rootDir": ".",
         "moduleResolution": "node",
         "types": [
-         "vitest/globals"   
+         "vitest/globals",
         ]
     },
     "exclude": [
@@ -15,6 +15,6 @@
         "packages/__tests__/*"
     ],
     "include": [
-       "packages/*.ts", "packages/**/*.ts", "src/*.ts", "src/**/*.ts"
+       "packages/*.ts", "packages/**/*.ts", "src/*.ts", "src/**/*.ts", "./*.ts"
     ]
 }
